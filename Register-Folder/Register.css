@@ -1,0 +1,172 @@
+/* Variáveis de cores */
+:root {
+    --bg-gradient-start: #1A112F;
+    --bg-gradient-end: #3C1A5B;
+    --card-color: #2F1E4A;
+    --text-color: #F5F5F5;
+    --input-bg-color: #4A3E62; /* Renomeado para maior clareza */
+    --link-color: #4A90E2;
+    --google-btn-text-color: #000;
+    --google-btn-bg-color: #ffffff;
+    --google-btn-border-color: #ddd;
+}
+
+body {
+    background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+    font-family: Arial, sans-serif;
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden; /* Evita scroll horizontal em casos raros */
+}
+
+.login-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px; /* Adiciona um padding para telas muito pequenas */
+    box-sizing: border-box; /* Garante que o padding não aumente a largura total */
+}
+
+.cadastro-card {
+    background-color: var(--card-color);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    width: 100%; /* Mudado de 90% para 100% para ocupar a largura do container */
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box; /* Garante que o padding não aumente a largura total */
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.logo-icon {
+    width: 35px !important; /* Ajustei um pouco mais para um tamanho comum */
+    height: auto;
+}
+
+.logo-text {
+    font-size: 2.2rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Formulário e campos de entrada */
+form {
+    width: 100%;
+}
+
+.input-group {
+    text-align: left;
+    margin-bottom: 20px;
+    width: 100%; /* Garante que o grupo ocupe a largura total disponível */
+    position: relative; /* Importante para o ícone do olho */
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.input-group input {
+    width: 100%; /* Garante que o input ocupe toda a largura */
+    padding: 12px 15px; /* Padding padrão */
+    padding-right: 50px; /* Aumentado para dar mais espaço ao ícone do olho */
+    background-color: var(--input-bg-color);
+    border: none;
+    border-radius: 10px;
+    color: var(--text-color);
+    font-size: 1rem;
+    outline: none;
+    box-sizing: border-box; /* Essencial para que padding e borda não aumentem a largura */
+}
+/* Posiciona o ícone do olho */
+.password-toggle-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%; /* Centraliza verticalmente na altura do input */
+    transform: translateY(-50%); /* Ajuste para centralização perfeita */
+    cursor: pointer;
+    user-select: none;
+    opacity: 0.8;
+    color: var(--text-color); /* Garante a cor do texto para o ícone */
+    font-size: 1.2rem; /* Aumenta um pouco o tamanho do ícone para visibilidade */
+    line-height: 1; /* Ajuda no alinhamento vertical de caracteres */
+}
+/* Links e botões */
+.forgot-password {
+    display: block;
+    text-align: right;
+    font-size: 0.9rem;
+    color: var(--link-color);
+    text-decoration: none;
+    margin-top: -10px;
+    margin-bottom: 20px;
+}
+
+.btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-bottom: 15px;
+    font-weight: bold;
+    transition: transform 0.2s ease;
+    text-decoration: none;
+    display: flex; /* Adicionado para botões com conteúdo flexível */
+    align-items: center; /* Alinha o conteúdo verticalmente */
+    justify-content: center; /* Centraliza o conteúdo horizontalmente */
+    gap: 10px; /* Espaço entre ícone e texto, se houver */
+}
+
+.btn:hover {
+    transform: scale(1.02);
+}
+
+.cadastro-btn {
+    background-color: var(--link-color);
+    color: #fff;
+}
+
+.google-btn {
+    background-color: var(--google-btn-bg-color);
+    color: var(--google-btn-text-color);
+    border: 1px solid var(--google-btn-border-color);
+    /* As propriedades display, align-items, justify-content e gap já estão no .btn */
+}
+
+.google-logo {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle; /* Ajuda no alinhamento vertical com o texto */
+}
+
+.signup-link {
+    font-size: 0.9rem;
+    margin-top: 15px;
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.signup-link a {
+    color: var(--link-color);
+    text-decoration: none;
+    font-weight: bold;
+}

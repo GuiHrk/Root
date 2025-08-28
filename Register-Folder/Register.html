@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clackin - Cadastro</title>
+    <link rel="stylesheet" href="Register.css">
+</head>
+<body>
+    <div class="cadastro-container">
+        <div class="cadastro-card">
+            <div class="logo-area">
+                <img src="../index.folder/logo (1).png" alt="Logo Clackin" class="logo-icon">
+                <h1 class="logo-text">Clackin</h1>
+            </div>
+
+            <form action="">
+                <div class="input-group">
+                    <label for="nome">Nome</label>
+                    <input type="text" id="nome" placeholder="Nome" required>
+                </div>
+                <div class="input-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" placeholder="E-mail" required>
+                </div>
+                <div class="input-group password-container">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" placeholder="Senha" required>
+                </div>
+                <div class="input-group password-container">
+                    <label for="confirmar-senha">Confirmar Senha</label>
+                    <input type="password" id="confirmar-senha" placeholder="Confirmar Senha" required>
+                </div>
+                
+                <button type="submit" class="btn cadastro-btn">Cadastrar</button>
+            </form>
+            
+            <button class="btn google-btn">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/2048px-Google_%22G%22_logo.svg.png" alt="Logo Google" class="google-logo">
+                <span>Entrar com Google</span>
+            </button>
+
+            <a href="../Login-Folder/Login.html" class="login-link">Já possui cadastro? Faça login</a>
+        </div>
+    </div>
+</body>
+</html>

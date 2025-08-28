@@ -1,0 +1,152 @@
+:root {
+    --bg-color: #1A112F;
+    --text-color: #F5F5F5;
+    --btn-login-bg: rgba(0, 0, 0, 0.4);
+    --btn-login-border: #8A4FDC;
+    --btn-signup-start: #5C2D91;
+    --btn-signup-end: #AC30A3;
+    --btn-cta-start: #5C2D91;
+    --btn-cta-end: #AC30A3;
+}
+
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+}
+
+
+header {
+    width: 80%;
+    max-width: 1200px;
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    height: 40px;
+}
+
+.logo h1 {
+    font-size: 24px;
+    font-weight: normal;
+}
+
+
+.nav-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: var(--text-color);
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-login {
+    background-color: transparent;
+    border: 1px solid var(--btn-login-border);
+}
+
+.btn-login:hover {
+    background-color: rgba(92, 45, 145, 0.5); 
+    transform: scale(1.05); 
+}
+
+.btn-signup {
+    background-image: linear-gradient(90deg, var(--btn-signup-start), var(--btn-signup-end));
+}
+
+.btn-signup:hover {
+    background-image: linear-gradient(90deg, var(--btn-signup-end), var(--btn-signup-start));
+    transform: scale(1.05);
+}
+
+main {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    width: 100%;
+    text-align: center; 
+}
+
+
+.hero-section {
+    width: 80%;
+    max-width: 800px; 
+}
+
+.main-title {
+    font-size: 3.5rem;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+
+.subtitle {
+    font-size: 1.2rem;
+    font-weight: 300;
+    margin-bottom: 40px;
+    opacity: 0.8;
+}
+
+.btn-cta {
+    background-image: linear-gradient(90deg, var(--btn-cta-start), var(--btn-cta-end));
+    padding: 15px 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 50px;
+}
+
+.btn-cta:hover {
+    background-image: linear-gradient(90deg, var(--btn-cta-end), var(--btn-cta-start));
+    transform: scale(1.05);
+}
+
+.arrow-icon {
+    margin-left: 10px;
+}
+
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .hero-section {
+        margin-top: 50px;
+    }
+
+    .main-title {
+        font-size: 2rem; 
+        white-space: nowrap; 
+    }
+}
