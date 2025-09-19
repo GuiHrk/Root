@@ -1,41 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clackin - Login</title>
-    <link rel="stylesheet" href="Login.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clackin - Login</title>
+  <link rel="stylesheet" href="login.css">
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-card">
-            <div class="logo-area">
-                <img src="../index.folder/logo (1).png" alt="Logo Clackin" class="logo-icon">
-                <h1 class="logo-text">Clackin</h1>
-            </div>
-
-            <form action="">
-                <div class="input-group">
-                    <label for="email">E-mail</label>
-                    <input type="email" id="email" placeholder="E-mail" required>
-                </div>
-                <div class="input-group password-container">
-                    <label for="senha">Senha</label>
-                    <input type="password" id="senha" placeholder="Senha" required>
-                </div>
-
-                <a href="#" class="forgot-password">Esqueceu a senha?</a>
-
-                <button type="submit" class="btn login-btn">Entrar</button>
-            </form>
-
-            <button class="btn google-btn">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/2048px-Google_%22G%22_logo.svg.png" alt="Logo Google" class="google-logo">
-                <span>Entrar com o Google</span>
-            </button>
-
-            <a href="../Register-Folder/Register.html" class="signup-link">Não possui cadastro? Clique aqui</a>
-        </div>
+  <div class="login-container">
+    <!-- LADO ESQUERDO - ILUSTRAÇÃO -->
+    <div class="left-side">
+      <div class="illustration">
+        <img src="../index.folder/logo (1).png" alt="Logo Clackin" class="logo">
+        <h1>Bem-vindo de volta!</h1>
+        <p>Entre e continue sua jornada com a Clackin</p>
+      </div>
     </div>
+
+    <!-- LADO DIREITO - FORMULÁRIO -->
+    <div class="right-side">
+      <div class="login-card">
+        <h2>Login</h2>
+
+        <form>
+          <div class="input-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" placeholder="Digite seu e-mail" required>
+          </div>
+
+          <div class="input-group">
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" placeholder="Digite sua senha" required>
+          </div>
+
+          <div class="options">
+            <label><input type="checkbox"> Lembrar-me</label>
+            <a href="#" class="forgot">Esqueceu a senha?</a>
+          </div>
+
+          <button type="submit" class="btn login-btn">Entrar</button>
+        </form>
+
+        <div class="divider">ou entre com</div>
+
+        <div class="social-login">
+          <button class="social-btn">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" alt="Facebook">
+          </button>
+          <button class="social-btn">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google">
+          </button>
+          <button class="social-btn">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple">
+          </button>
+        </div>
+
+        <p class="signup">Não possui conta? <a href="../Register-Folder/Register.html">Cadastre-se</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="../index.folder/temas.js"></script>
 </body>
 </html>

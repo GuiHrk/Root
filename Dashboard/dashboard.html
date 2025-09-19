@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clackin - Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../index.folder/logo (1).png" alt="Logo Clackin">
+            <h1>Clackin</h1>
+        </div>
+        <div class="user-menu">
+            <span class="username">Olá, Usuário</span>
+            <button class="menu-icon" id="openThemePanel">⋮</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="dashboard-section">
+            <h2>Seu Painel</h2>
+
+            <div class="cards-container">
+                <div class="card">
+                    <h3>Minhas Tarefas</h3>
+                    <p>Organize suas tarefas diárias.</p>
+                    <button class="btn btn-project">Abrir</button>
+                </div>
+                <div class="card" id="projectsCard">
+                    <h3>Projetos</h3>
+                    <p>Acompanhe todos os projetos em andamento.</p>
+                    <button class="btn btn-project" id="openProjects">Abrir</button>
+                </div>
+                <div class="card">
+                    <h3>Chat</h3>
+                    <p>Converse com seus colegas.</p>
+                    <button class="btn btn-project">Abrir</button>
+                </div>
+                <div class="card">
+                    <h3>Configurações</h3>
+                    <p>Personalize sua experiência.</p>
+                    <button class="btn btn-project">Abrir</button>
+                </div>
+            </div>
+
+            <div class="charts-section">
+                <div class="chart-card">
+                    <h3>Atividades Recentes</h3>
+                    <canvas id="activityChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Progresso Semanal</h3>
+                    <canvas id="progressChart"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal de Projetos -->
+    <div class="modal-overlay" id="projectsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Seus Projetos</h2>
+                <button class="close-modal" id="closeProjectsModal">&times;</button>
+            </div>
+            <div class="modal-body" id="projectsList">
+                <!-- Lista de projetos será inserida pelo JS -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-project" id="createProjectBtn">Criar Novo Projeto</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Criar Novo Projeto -->
+    <div class="modal-overlay" id="createProjectModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Criar Novo Projeto</h2>
+                <button class="close-modal" id="closeCreateProjectModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="newProjectName" placeholder="Digite o nome do projeto" />
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-project" id="saveProjectBtn">Salvar Projeto</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Painel lateral de tema -->
+    <aside class="theme-panel" id="themePanel">
+        <div class="theme-header">
+            <h2>Temas</h2>
+            <button id="closeThemePanel">&times;</button>
+        </div>
+        <div class="color-grid">
+            <div class="color-box" style="background:#0057B8" data-color="#0057B8"></div>
+            <div class="color-box" style="background:#7ED957" data-color="#7ED957"></div>
+            <div class="color-box" style="background:#FF6F00" data-color="#FF6F00"></div>
+            <div class="color-box" style="background:#FF1E1E" data-color="#FF1E1E"></div>
+            <div class="color-box" style="background:#FF33CC" data-color="#FF33CC"></div>
+            <div class="color-box" style="background:#777" data-color="#777"></div>
+            <div class="color-box" style="background:#000" data-color="#000"></div>
+            <div class="color-box" style="background:#FFD700" data-color="#FFD700"></div>
+            <div class="color-box default-color" data-default="true">↺</div>
+        </div>
+        <div class="theme-toggle">
+            <span>Claro</span>
+            <div class="toggle-slider" id="themeSlider">
+                <div class="toggle-knob"></div>
+            </div>
+            <span>Escuro</span>
+        </div>
+    </aside>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
