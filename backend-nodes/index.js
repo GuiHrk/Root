@@ -4,11 +4,13 @@ const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
 const { Sequelize } = require("sequelize");
+const bodyParser = require("body-parser");
+const userRoutes = require("./src/Routes/userRoutes");
 
 console.log("Variáveis carregadas:", {
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
-  pass: process.env.DB_PASSWORD ? "***" : "VAZIA",
+  pass: process.env.DB_PASSWORD,
   db: process.env.DB_NAME,
   port: process.env.DB_PORT
 });
@@ -39,11 +41,14 @@ const io = new Server(server, {
 });
 
 app.use(cors());
+app.use(bodyParser.json());
 app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("O SERVIDOR ESTÁ ONLINE ");
 });
+
+app.use("/users", userRoutes);
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
