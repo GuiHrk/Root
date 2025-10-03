@@ -6,6 +6,8 @@ const cors = require("cors");
 const { Sequelize } = require("sequelize");
 const bodyParser = require("body-parser");
 const userRoutes = require("./src/Routes/userRoutes");
+//const userRoutes = require("./src/Routes/messageRoutes");
+
 
 console.log("Variáveis carregadas:", {
   host: process.env.DB_HOST,
@@ -49,6 +51,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/users", userRoutes);
+//app.use("/messages", messageRoutes);
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {

@@ -1,4 +1,5 @@
 const { Sequelize } = require("sequelize");
+require("dotenv").config();
 
 const sequelize = new Sequelize(
   process.env.DB_NAME,
@@ -10,5 +11,10 @@ const sequelize = new Sequelize(
     port: process.env.DB_PORT,
   }
 );
+
+sequelize
+  .authenticate()
+  .then(() => console.log("✅ Conectado ao MySQL Railway (db.js)"))
+  .catch((err) => console.error("❌ Falha ao conectar no MySQL:", err));
 
 module.exports = sequelize;
