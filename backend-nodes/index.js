@@ -5,8 +5,7 @@ const { Server } = require("socket.io");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const userRoutes = require("./src/Routes/userRoutes");
-//const userRoutes = require("./src/Routes/messageRoutes");
-
+const messageRoutes = require("./src/Routes/messageRoutes");
 
 const app = express();
 const server = http.createServer(app);
@@ -26,7 +25,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/users", userRoutes);
-//app.use("/messages", messageRoutes);
+app.use("/messages", messageRoutes);
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {

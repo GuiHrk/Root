@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { sequelize }= require("../db");
-const { QueryTypes } = require("sequelize");
+const sequelize = require("../db");
 
 router.post("/send",async (req, res) => {
     const { remetente_id, conteudo } = req.body;
@@ -12,31 +11,30 @@ router.post("/send",async (req, res) => {
 
     try {
         await sequelize.query(
-            "INSERT INTO MENSAGENS (rementente_id, conteudo, hora_envio) Values (?,?,NOW())",
+            "INSERT INTO MENSAGENS (remetente_id, conteudo) Values (?,?)",
             {
                 replacements: [remetente_id,conteudo],
-                type: QueryTypes.INSERT,
             }
         );
         res.status(201).json({message: "Mensagem enviada com sucesso!"});
     } catch (err) {
         console.error("erro ao enviar mensagem:", err);
-        res.status(500).json({error:"erro no servidor"});
+        res.status(500).json({error:"erro no ao enviar a mensagem"});
     }
 });
 
-router.get("/", async (req, res) => {
+router.get("/all", async (req, res) => {
     try {
-        const mensagens = await sequelize.query(
-            "SELECT * FROM MENSAGENS ORDER BY hora_envio Desc",
-            {
-                type: QueryTypes.SELECT,
-            }
-        );
+        const mensagens = await sequelize.query(`
+            SELECT m.id, u.nome AS remetente, m.conteudo, m.hora_envio
+            FROM MENSAGENS m
+            JOIN USUARIOS u ON m.remetente_id = u.id
+            ORDER BY m.hora_envio DESC 
+        `);
         res.json(mensagens);
     } catch (err) {
         console.error("Erro ao listar mensagens:", err);
-        res.status(500).json({error: "Erro no servidor" });
+        res.status(500).json({error: "Erro ao buscar a mensagem" });
     }
 });
 
