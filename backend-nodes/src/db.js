@@ -9,12 +9,17 @@ const sequelize = new Sequelize(
     host: process.env.DB_HOST,
     dialect: "mysql",
     port: process.env.DB_PORT,
+    logging: false, // Marcação: função para evitar poluir o terminal
   }
 );
 
-sequelize
-  .authenticate()
-  .then(() => console.log("✅ Conectado ao MySQL Railway (db.js)"))
-  .catch((err) => console.error("❌ Falha ao conectar no MySQL:", err));
+(async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("✅ Conexão bem-sucedida com o banco MySQL Railway!");
+  } catch (error) {
+    console.error("❌ Erro ao conectar no banco:", error);
+  }
+})();
 
 module.exports = sequelize;
