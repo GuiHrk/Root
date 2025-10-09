@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clackin — Minhas Tarefas</title>
+<link rel="stylesheet" href="tarefas.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <!-- Troque "logo.png" pelo caminho real da sua logo -->
+    <img src="../index.folder/logo (1).png" alt="Logo Clackin" class="logo-img">
+    <h1>Clackin</h1>
+  </div>
+</header>
+
+<main class="container">
+  <aside class="sidebar">
+    <h2>Projetos</h2>
+    <ul id="projects-list" class="projects-list"></ul>
+  </aside>
+
+  <section class="workspace">
+    <div class="workspace-header">
+      <h2 id="current-project-name">Selecione um projeto</h2>
+      <div class="filters">
+        <button class="filter-btn active" data-status="created">Criadas</button>
+        <button class="filter-btn" data-status="in-progress">Em Progresso</button>
+        <button class="filter-btn" data-status="done">Concluídas</button>
+      </div>
+    </div>
+
+    <div id="tasks-container" class="tasks-container">
+      <p class="no-tasks">Nenhuma tarefa nesta categoria</p>
+    </div>
+  </section>
+</main>
+
+<script src="tarefas.js"></script>
+</body>
+</html>
