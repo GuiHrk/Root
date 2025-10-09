@@ -40,7 +40,7 @@ let progressChart = new Chart(ctx2, {
             label:'Progresso',
             data:[5,7,8,10,9,11,12],
             fill:true,
-            backgroundColor: defaultThemeColor + "33", // transparente
+            backgroundColor: defaultThemeColor + "33",
             borderColor: defaultThemeColor,
             tension:0.3
         }]
@@ -117,6 +117,7 @@ function updateProjectsList(){
         emptyMsg.textContent = "Nenhum projeto encontrado.";
         emptyMsg.style.textAlign = "center";
         projectsList.appendChild(emptyMsg);
+        return;
     }
 
     projects.forEach((project, idx)=>{
@@ -124,16 +125,21 @@ function updateProjectsList(){
         card.classList.add("project-card");
 
         const nameSpan = document.createElement("span");
-        nameSpan.textContent = project;
+        nameSpan.textContent = project.name;
 
         const actionsDiv = document.createElement("div");
         actionsDiv.classList.add("project-actions");
 
+        // Botão Abrir
         const openBtn = document.createElement("button");
         openBtn.textContent = "Abrir";
         openBtn.classList.add("open-btn");
-        openBtn.addEventListener("click", ()=> alert(`Abrindo projeto: ${project}`));
+        openBtn.addEventListener("click", ()=> {
+            localStorage.setItem("activeProject", JSON.stringify(project));
+            window.location.href = "../Project/project.html"; 
+        });
 
+        // Botão Apagar
         const deleteBtn = document.createElement("button");
         deleteBtn.textContent = "Apagar";
         deleteBtn.classList.add("delete-btn");
@@ -141,6 +147,16 @@ function updateProjectsList(){
             let projs = JSON.parse(localStorage.getItem("projects")) || [];
             projs.splice(idx,1);
             localStorage.setItem("projects", JSON.stringify(projs));
+
+            // Remove do Kanban também
+            let kanbanProjects = JSON.parse(localStorage.getItem("kanbanProjects")) || [];
+            kanbanProjects = kanbanProjects.filter(kp => kp.name !== project.name);
+            localStorage.setItem("kanbanProjects", JSON.stringify(kanbanProjects));
+
+            const active = JSON.parse(localStorage.getItem("activeProject"));
+            if(active && active.name === project.name){
+                localStorage.removeItem("activeProject");
+            }
             updateProjectsList();
         });
 
@@ -148,27 +164,41 @@ function updateProjectsList(){
         actionsDiv.appendChild(deleteBtn);
         card.appendChild(nameSpan);
         card.appendChild(actionsDiv);
+
         projectsList.appendChild(card);
     });
 }
 
 // Abrir/fechar modais
-openProjectsBtn.addEventListener("click", ()=>{
+openProjectsBtn.addEventListener("click", ()=> {
     projectsModal.classList.add("active");
     updateProjectsList();
 });
 closeProjectsModal.addEventListener("click", ()=> projectsModal.classList.remove("active"));
-createProjectBtn.addEventListener("click", ()=>{
+createProjectBtn.addEventListener("click", ()=> {
     projectsModal.classList.remove("active");
     createProjectModal.classList.add("active");
     newProjectName.value = "";
+    // Limpar campo de membros
+    if(!document.getElementById("newProjectMembers")){
+        const membersInput = document.createElement("input");
+        membersInput.type = "text";
+        membersInput.id = "newProjectMembers";
+        membersInput.placeholder = "Adicionar membros (separe por vírgulas)";
+        membersInput.style.marginTop = "10px";
+        createProjectModal.querySelector(".modal-body").appendChild(membersInput);
+    } else {
+        document.getElementById("newProjectMembers").value = "";
+    }
 });
 closeCreateProjectModal.addEventListener("click", ()=> createProjectModal.classList.remove("active"));
 saveProjectBtn.addEventListener("click", ()=>{
     const name = newProjectName.value.trim();
+    const membersInput = document.getElementById("newProjectMembers");
+    const members = membersInput ? membersInput.value.split(",").map(m=>m.trim()).filter(m=>m) : [];
     if(name){
         const projs = JSON.parse(localStorage.getItem("projects")) || [];
-        projs.push(name);
+        projs.push({name, members});
         localStorage.setItem("projects", JSON.stringify(projs));
         createProjectModal.classList.remove("active");
         projectsModal.classList.add("active");
@@ -186,9 +216,28 @@ function updateChartsColors(){
     activityChart.update();
 
     progressChart.data.datasets[0].borderColor = color;
-    progressChart.data.datasets[0].backgroundColor = color + "33"; // transparente
+    progressChart.data.datasets[0].backgroundColor = color + "33";
     progressChart.update();
 }
+
+// --------- INTEGRAÇÃO COM TELA DE TAREFAS ----------
+function setupTasksCard(){
+    const cards = document.querySelectorAll('.cards-container .card');
+    cards.forEach(card => {
+        const title = card.querySelector('h3')?.textContent.trim();
+        if(title === "Minhas Tarefas"){
+            const btn = card.querySelector('button');
+            btn.addEventListener('click', () => {
+                const activeProject = localStorage.getItem('currentKanbanProject') || null;
+                if(activeProject){
+                    localStorage.setItem('activeProject', JSON.stringify({id: activeProject}));
+                }
+                window.location.href = "../Tarefas/tarefas.html"; 
+            });
+        }
+    });
+}
+setupTasksCard();
 
 // --------- INICIALIZAÇÃO ----------
 const savedTheme = localStorage.getItem("theme") || "dark";

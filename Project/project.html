@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Moderno Kanban</title>
+  <link rel="stylesheet" href="project.css">
+</head>
+<body>
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="brand">
+      <button id="toggle-sidebar" class="btn-toggle">☰</button>
+      <h1 id="current-project-name">Projeto Atual</h1>
+    </div>
+    <div>
+      <button id="btn-new-task" class="btn btn-primary">+ Nova Tarefa</button>
+    </div>
+  </div>
+
+  <!-- Layout principal -->
+  <div class="container">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <h3>Projetos</h3>
+      </div>
+      <ul id="projects-list" class="projects-list"></ul>
+    </aside>
+
+    <!-- Workspace -->
+    <main id="workspace" class="workspace empty">
+      <div class="kanban-columns">
+        <div class="kanban-column" data-status="created">
+          <h3>Tarefas Criadas</h3>
+          <div class="task-list" id="created-tasks"></div>
+        </div>
+        <div class="kanban-column" data-status="in-progress">
+          <h3>Em andamento</h3>
+          <div class="task-list" id="in-progress-tasks"></div>
+        </div>
+        <div class="kanban-column" data-status="done">
+          <h3>Concluídas</h3>
+          <div class="task-list" id="done-tasks"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal Tarefa -->
+  <div id="modal-task" class="modal hidden">
+    <div class="modal-card">
+      <h2 id="modal-task-title">Nova Tarefa</h2>
+      <label>
+        Título:
+        <input type="text" id="task-title">
+      </label>
+      <label>
+        Descrição:
+        <textarea id="task-desc"></textarea>
+      </label>
+      <label>
+        Responsável:
+        <select id="task-assignee"></select>
+      </label>
+      <label class="row">
+        <span>
+          Data de início:
+          <input type="date" id="task-start">
+        </span>
+        <span>
+          Data de término:
+          <input type="date" id="task-end">
+        </span>
+      </label>
+      <label>
+        Prioridade:
+        <select id="task-priority">
+          <option value="normal">Normal</option>
+          <option value="alta">Alta</option>
+          <option value="baixa">Baixa</option>
+        </select>
+      </label>
+      <div class="modal-actions">
+        <button id="task-delete" class="btn btn-danger">✕ Excluir</button>
+        <button id="task-cancel" class="btn">Cancelar</button>
+        <button id="task-save" class="btn btn-primary">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Exclusão Moderno -->
+  <div id="modal-delete" class="modal hidden">
+    <div class="modal-card modern">
+      <h2 id="modal-delete-text">Deseja realmente excluir?</h2>
+      <p class="modal-subtext">Essa ação não pode ser desfeita.</p>
+      <div class="modal-actions">
+        <button id="delete-cancel" class="btn btn-cancel">Cancelar</button>
+        <button id="delete-confirm" class="btn btn-danger">Excluir</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="project.js"></script>
+</body>
+</html>
