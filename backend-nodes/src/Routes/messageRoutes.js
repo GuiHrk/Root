@@ -1,21 +1,41 @@
 const express = require("express");
 const router = express.Router();
 const sequelize = require("../db");
+const { QueryTypes } = require("sequelize");
+
+
+
+module.exports = (io) =>{
 
 router.post("/send",async (req, res) => {
-    const { remetente_id, conteudo } = req.body;
+    const { userId, content } = req.body;
 
-    if (!remetente_id || !conteudo) {
+    if (!userId || !content) {
         return res.status(400).json({ error:"Preencha todos os campos"});
     }
 
     try {
         await sequelize.query(
-            "INSERT INTO MENSAGENS (remetente_id, conteudo) Values (?,?)",
+            "INSERT INTO mensagens (userId, content) Values (?,?)",
             {
-                replacements: [remetente_id,conteudo],
+                replacements: [userId,content],
+                type: QueryTypes.INSERT,
             }
         );
+        const [ultimaMensagem] = await sequelize.query(
+            `
+            SELECT m.id, m.content, m.createdAt, u.nome AS remetente
+            FROM mensagens m
+            JOIN usuarios u ON m.userId = u.id
+            ORDER BY m.id DESC
+            LIMIT 1
+            `,
+            { type: QueryTypes.SELECT }
+          );
+     
+          io.emit("novaMensagem", ultimaMensagem);
+
+
         res.status(201).json({message: "Mensagem enviada com sucesso!"});
     } catch (err) {
         console.error("erro ao enviar mensagem:", err);
@@ -25,17 +45,23 @@ router.post("/send",async (req, res) => {
 
 router.get("/all", async (req, res) => {
     try {
-        const mensagens = await sequelize.query(`
-            SELECT m.id, u.nome AS remetente, m.conteudo, m.hora_envio
-            FROM MENSAGENS m
-            JOIN USUARIOS u ON m.remetente_id = u.id
-            ORDER BY m.hora_envio DESC 
-        `);
-        res.json(mensagens);
+        const mensagens = await sequelize.query(
+            `
+            SELECT m.id, u.nome AS remetente, m.content, m.createdAt
+            FROM mensagens m
+            JOIN usuarios u ON m.userId = u.id
+            ORDER BY m.createdAt ASC
+            `,
+            { type: QueryTypes.SELECT }
+          );
+        
+          res.json(mensagens);
     } catch (err) {
         console.error("Erro ao listar mensagens:", err);
         res.status(500).json({error: "Erro ao buscar a mensagem" });
     }
 });
 
-module.exports = router;
+return router;
+};
+
