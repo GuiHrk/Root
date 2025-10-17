@@ -1,4 +1,5 @@
 const { Sequelize } = require("sequelize");
+const fs = require("fs");
 require("dotenv").config();
 
 const sequelize = new Sequelize(
@@ -9,17 +10,31 @@ const sequelize = new Sequelize(
     host: process.env.DB_HOST,
     dialect: "mysql",
     port: process.env.DB_PORT,
-    logging: false, // Marcação: função para evitar poluir o terminal
+    logging: false,
+    dialectOptions: {
+      ssl: {
+        ca: fs.readFileSync(process.env.DB_SSL_CA),
+      },
+    },
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
   }
 );
 
-(async () => {
+async function connectDB() {
   try {
     await sequelize.authenticate();
-    console.log("✅ Conexão bem-sucedida com o banco MySQL Railway!");
+    console.log("✅ Conexão bem-sucedida com o banco MySQL Aiven!");
   } catch (error) {
     console.error("❌ Erro ao conectar no banco:", error);
+    console.log("Tentando reconectar em 5 segundos...");
+    setTimeout(connectDB, 5000);
   }
-})();
+}
 
+connectDB();
 module.exports = sequelize;

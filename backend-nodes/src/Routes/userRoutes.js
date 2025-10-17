@@ -19,7 +19,7 @@ router.post("/register",async (req, res) => {
     try {
         console.log(">>> /users/register: about to INSERT");
         await sequelize.query(
-            "INSERT INTO USUARIOS (nome, email, senha ) VALUES (?, ?, ?)",
+            "INSERT INTO usuarios (nome, email, senha ) VALUES (?, ?, ?)",
             {
             replacements: [nome, email, senha],
             type: QueryTypes.INSERT,
@@ -41,7 +41,7 @@ router.post("/login", async (req, res) => {
 
     try {
         const users = await sequelize.query(
-            "SELECT * FROM USUARIOS WHERE email = ? AND senha = ?",
+            "SELECT * FROM usuarios WHERE email = ? AND senha = ?",
          {
             replacements: [email, senha],
             type: QueryTypes.SELECT,
