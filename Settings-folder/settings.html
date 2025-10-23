@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Configurações do Usuário</title>
+<link rel="stylesheet" href="settings.css" />
+<script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+<div class="settings-container">
+
+  <aside class="sidebar">
+    <h2>Configurações</h2>
+    <ul>
+      <li class="active" data-tab="perfil"><i data-feather="user"></i> Perfil</li>
+      <li data-tab="idioma"><i data-feather="globe"></i> Idioma & Região</li>
+      <li data-tab="status"><i data-feather="zap"></i> Status</li>
+      <li data-tab="notificacoes"><i data-feather="bell"></i> Notificações</li>
+      <li data-tab="seguranca"><i data-feather="shield"></i> Segurança</li>
+    </ul>
+  </aside>
+
+  <main class="content">
+
+    <section id="perfil" class="tab active">
+      <h1>Perfil do Usuário</h1>
+      <div class="card">
+        <div class="avatar-section">
+          <div class="avatar-wrapper">
+            <img id="profile-pic" src="images/default-avatar.png" alt="Foto de Perfil" />
+          </div>
+          <button id="upload-btn">Alterar Foto</button>
+          <input type="file" id="file-input" hidden />
+        </div>
+
+        <form class="user-info">
+          <label>Nome</label>
+          <input type="text" id="full-name" value="Thiago Souza Santos" readonly>
+
+          <label>Apelido</label>
+          <input type="text" id="nickname" value="Thiago">
+
+          <label>Email</label>
+          <input type="email" id="email" value="thiago@email.com" readonly>
+
+          <div class="btn-group">
+            <button type="button" class="delete-btn">Excluir Conta</button>
+            <button type="submit" class="save-btn">Salvar Alterações</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section id="idioma" class="tab">
+      <h1>Idioma e Região</h1>
+      <div class="card">
+        
+        <h3>Idioma da Interface</h3>
+        <label for="language-select">Idioma Principal:</label>
+        <select id="language-select" style="margin-bottom: 30px;">
+          <option value="pt-BR">Português (Brasil)</option>
+          <option value="en-US">English (United States)</option>
+          <option value="es-ES">Español (España)</option>
+        </select>
+
+        <h3>Formato de Data e Hora</h3>
+        
+        <label for="date-format-select">Formato da Data:</label>
+        <select id="date-format-select">
+          <option value="dd/mm/yyyy">DD/MM/AAAA (ex: 25/10/2025)</option>
+          <option value="mm/dd/yyyy">MM/DD/AAAA (ex: 10/25/2025)</option>
+          <option value="yyyy-mm-dd">AAAA-MM-DD (ex: 2025-10-25)</option>
+        </select>
+        
+        <label for="time-format-select" style="margin-top: 15px;">Formato da Hora:</label>
+        <select id="time-format-select">
+          <option value="24h">24 Horas (ex: 14:30:48)</option>
+          <option value="12h">12 Horas (AM/PM) (ex: 2:30:48 PM)</option>
+        </select>
+
+        <hr style="margin-top: 25px; margin-bottom: 20px; border-color: var(--border);">
+        
+        <h3>Pré-visualização</h3>
+        <p class="preview-text">A data e hora atuais serão exibidas no formato escolhido:</p>
+        <div id="datetime-preview" class="preview-box">--:--</div>
+
+        <button class="save-btn save-locale" style="margin-top: 20px;">Salvar Preferências</button>
+      </div>
+    </section>
+
+    <section id="status" class="tab">
+      <h1>Status</h1>
+      <div class="status-cards">
+        <div class="status-card" data-status="Disponível">
+          <span class="status-dot available"></span>
+          Disponível
+        </div>
+        <div class="status-card" data-status="Ocupado">
+          <span class="status-dot busy"></span>
+          Ocupado
+        </div>
+        <div class="status-card" data-status="Ausente">
+          <span class="status-dot away"></span>
+          Ausente
+        </div>
+        <div class="status-card" data-status="Offline">
+          <span class="status-dot offline"></span>
+          Offline
+        </div>
+      </div>
+      <button class="save-btn save-status">Salvar Status</button>
+    </section>
+
+    <section id="notificacoes" class="tab">
+      <h1>Notificações</h1>
+      <div class="card">
+        <label class="switch">
+          <input type="checkbox" checked id="msg-toggle">
+          <span class="slider"></span>
+          Ativar notificações de mensagens
+        </label>
+
+        <label class="switch">
+          <input type="checkbox" id="popup-toggle">
+          <span class="slider"></span>
+          Mostrar pop-ups de notificações
+        </label>
+
+        <div class="sound-select-group">
+          <label for="sound-select">Som de notificação:</label>
+          <select id="sound-select">
+            <option value="ding">Ding</option>
+            <option value="pop">Pop</option>
+            <option value="chime">Chime</option>
+            <option value="plim">Plim</option>
+            <option value="tec">Tec</option>
+            <option value="dug">Dug</option>
+          </select>
+          <button id="play-sound" class="play-btn" > 
+            <i data-feather="play"></i>
+            <span class="wave"></span>
+          </button>
+        </div>
+
+        <button class="save-btn save-notif">Salvar Preferências</button>
+      </div>
+    </section>
+
+    <section id="seguranca" class="tab">
+      <h1>Segurança</h1>
+      <div class="card">
+        <label>Alterar senha</label>
+        <input type="password" placeholder="Nova senha" id="new-password">
+        <label>Confirmar senha</label>
+        <input type="password" placeholder="Confirmar nova senha" id="confirm-password">
+
+        <hr>
+
+        <h3>Dispositivos Ativos</h3>
+        <div class="devices-list"></div>
+
+        <button class="save-btn save-security">Atualizar Segurança</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="modal-overlay">
+  <div class="modal">
+    <h2 id="modal-title">Confirmar Ação</h2>
+    <p id="modal-message">Você tem certeza?</p>
+    <div class="modal-actions">
+      <button id="cancel-btn">Cancelar</button>
+      <button id="confirm-btn" class="confirm">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<div class="photo-editor-overlay">
+  <div class="photo-editor-modal">
+    <h2>Editar Foto</h2>
+    <div class="photo-editor-crop">
+      <img id="photo-to-edit" src="images/default-avatar.png" alt="Foto para editar">
+    </div>
+    <input type="range" id="zoom-slider" min="0.8" max="1.2" step="0.01" value="1">
+    <div class="photo-editor-buttons">
+      <button id="cancel-edit">Cancelar</button>
+      <button id="save-edit">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<script src="settings.js"></script>
+<script>feather.replace();</script>
+</body>
+</html>

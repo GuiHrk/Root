@@ -239,7 +239,12 @@ function setupTasksCard(){
 }
 setupTasksCard();
 
-// --------- INICIALIZAÇÃO ----------
+const openSettingsBtn = document.getElementById("openSettings");
+openSettingsBtn.addEventListener("click", () => {
+    window.location.href = "../Settings-folder/settings.html"
+})
+
+
 const savedTheme = localStorage.getItem("theme") || "dark";
 applyTheme(savedTheme);
 const savedColor = localStorage.getItem("color");
