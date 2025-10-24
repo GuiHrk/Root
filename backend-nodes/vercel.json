@@ -1,8 +1,0 @@
-{
-    "routes": [
-      { "src": "/", "dest": "/Register-Folder/register.html" },
-      { "src": "/register", "dest": "/Register-Folder/register.html" },
-      { "src": "/chat", "dest": "chat.html" },
-      { "src": "/.*", "dest": "chat.html" }
-    ]
-}
