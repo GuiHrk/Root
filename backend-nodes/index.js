@@ -10,13 +10,16 @@ const userRoutes = require("./src/Routes/userRoutes");
 const app = express();
 const server = http.createServer(app);
 
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  methods: [ "GET", "POST"],
+}));
 app.use(bodyParser.json());
 app.use(express.json());
 
 const io = new Server(server, {
   cors: {
-    origin: "http://127.0.0.1:5500",
+    origin: "*",
     methods: ["GET", "POST"],
   },
 });
@@ -27,7 +30,7 @@ io.on("connection", (socket) => {
   console.log("🟢 Novo cliente conectado:", socket.id);
  
   socket.on("novaMensagem", (msg) => {
-    console.log("Mensagem recebida:", msg);
+    console.log("Mensagem recebida VIA SOCKET:", msg);
 
     io.emit("mensagemRecebida", msg);
   });
@@ -37,9 +40,6 @@ io.on("connection", (socket) => {
   });
 });
 
-//app.use(cors());
-//app.use(bodyParser.json());
-//app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("O SERVIDOR ESTÁ ONLINE ");
