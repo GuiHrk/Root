@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clackin - Organize sua Produtividade</title>
+  <link rel="stylesheet" href="Root\Index_folder/index.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="Root\Index_folder/logo (1).png" alt="Logo Clackin">
+      <h1>Clackin</h1>
+    </div>
+    <nav class="nav-buttons">
+      <a href="Root/Login-Folder/Login.html" class="btn btn-login">Login</a>
+      <a href="Root/Register-Folder/Register.html" class="btn btn-signup">Cadastre-se</a>
+      <button class="menu-icon" id="openThemePanel">⋮</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero-section">
+      <h1 class="main-title">Organize sua <span class="highlight">produtividade</span> com Clackin</h1>
+      <p class="subtitle">A plataforma completa para gerenciar projetos, tarefas e equipes em um só lugar.</p>
+      <div class="cta-buttons">
+        <a href="Register-Folder/Register.html" class="btn btn-cta">Comece Agora</a>
+        <a href="Login-Folder/Login.html" class="btn btn-secondary">Já tenho conta</a>
+      </div>
+    </section>
+  </main>
+
+  <aside class="theme-panel" id="themePanel">
+    <div class="theme-header">
+      <h2>Temas</h2>
+      <button id="closeThemePanel">&times;</button>
+    </div>
+    <div class="color-grid">
+      <div class="color-box" style="background:#0057B8" data-color="#0057B8"></div>
+      <div class="color-box" style="background:#7ED957" data-color="#7ED957"></div>
+      <div class="color-box" style="background:#FF6F00" data-color="#FF6F00"></div>
+      <div class="color-box" style="background:#FF1E1E" data-color="#FF1E1E"></div>
+      <div class="color-box" style="background:#FF33CC" data-color="#FF33CC"></div>
+      <div class="color-box" style="background:#777" data-color="#777"></div>
+      <div class="color-box" style="background:#000" data-color="#000"></div>
+      <div class="color-box" style="background:#FFD700" data-color="#FFD700"></div>
+      <div class="color-box default-color" data-default="true">↺</div>
+    </div>
+    <div class="theme-toggle">
+      <span>Claro</span>
+      <div class="toggle-slider" id="themeSlider">
+        <div class="toggle-knob"></div>
+      </div>
+      <span>Escuro</span>
+    </div>
+  </aside>
+
+  <script src="Root\Index_folder/index.js"></script>
+</body>
+</html>

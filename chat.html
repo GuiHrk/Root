@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - Home</title>
+</head>
+<body>
+    
+    <h1> Root Chat Beta 1.0 </h1>
+
+<style> body{
+    background-color: blueviolet;
+
+};
+
+#chatbox{ height: 400px; 
+    width: 350px; 
+    overflow-y: auto; 
+    border: 1px solid #ddd; 
+    border-radius: 12px; 
+    padding: 10px; 
+    margin: 50px auto; 
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+
+
+}
+
+
+
+
+</style>
+
+
+    <div id="chatBox" style="height: 400px; 
+    width: 350px; 
+    overflow-y: auto; 
+    border: 1px solid #ddd; 
+    border-radius: 12px; 
+    padding: 10px; 
+    margin: 50px auto; 
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);"></div>
+
+
+    <input id="mensagem" type="text" placeholder="Digite sua mensagem..." style="flex: 1;
+      height: 40px; 
+      padding: 10px 15px;
+      border: 1px solid #ccc; 
+      border-radius: 20px; 
+      outline: none;
+      font-size: 14px;
+      transition: border 0.2s;
+      background-color: #fff;">
+
+    <button style="padding: 0 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;" id="sendBtn">Enviar</button>
+
+
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"> </script>
+    <script>
+        const socket = io("https://root-backend-chat.onrender.com");
+
+        socket.on("connect", () => {
+            console.log("conectado ao servidor via socket");
+        })
+
+        socket.on("novaMensagem", (msg) => {
+            console.log("nova mensagem recebida:", msg);
+            const elem = document.createElement("div");
+            elem.textContent = `Usuário ${msg.userId}: ${msg.content}`;
+            document.getElementById("chatBox").appendChild(elem);
+        });
+
+        async function sendMessageToServer(userId, content){
+            const res = await fetch("https://root-backend-chat.onrender.com/messages/send",{
+                method: "POST",
+                headers: { "Content-Type": "application/json"},
+                body: JSON.stringify({userId,content})
+            });
+            return res.json();
+
+        }
+
+        document.getElementById("sendBtn").addEventListener("click", async () => {
+            const content = document.getElementById("mensagem").value.trim();
+            if(!content) return;
+
+            await sendMessageToServer(1, content);
+            document.getElementById("mensagem").value = "";
+        });
+
+   </script>
+
+</body>
+</html>
