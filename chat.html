@@ -80,6 +80,7 @@
         });
 
         async function sendMessageToServer(userId, content){
+            console.log("Enviando para o servidor: ", { userId, content});
             const res = await fetch("https://root-backend-chat.onrender.com/messages/send",{
                 method: "POST",
                 headers: { "Content-Type": "application/json"},

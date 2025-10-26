@@ -88,7 +88,7 @@ form.addEventListener('submit', async (e) => {
 
     // Redirecionar para o chat após 1.5s
     setTimeout(() => {
-      window.location.href = "index.html";
+      window.location.href = "/Root/chat.html";
     }, 1500);
 
     
