@@ -12,8 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
   
-      try{
-        const response = await fetch("https://root-backend-chat.onrender.com", {
+      try {
+        const response = await fetch("https://root-backend-chat.onrender.com/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, senha }),
@@ -22,6 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await response.json();
 
       if (!response.ok) {
+        const text = await response.text();
+        console.error("Erro na resposta: ", text);
         alert(data.error || "Falha no login. Verifique suas credenciais.");
         return;
       }

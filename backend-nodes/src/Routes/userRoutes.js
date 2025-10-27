@@ -38,6 +38,7 @@ router.post("/register",async (req, res) => {
 
 router.post("/login", async (req, res) => {
     const { email, senha } = req.body;
+    console.log(" /users/login recebido: ", req.body);
 
     try {
         const users = await sequelize.query(
@@ -52,7 +53,7 @@ router.post("/login", async (req, res) => {
             return res.status(401).json({error: "Credenciais inválidas"});
         }
 
-    
+        console.log("✅ Login bem-sucedido: ", users[0]);
         res.json({ message: "login realizado com sucesso", user: users[0] });
     } catch (err){
         console.error("Erro no login:", err);
