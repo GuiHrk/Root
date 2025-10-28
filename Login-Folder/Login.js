@@ -40,8 +40,8 @@ document.addEventListener("DOMContentLoaded", () => {
       alert(`✅ Bem-vindo, ${data.user.nome}! Redirecionando...`);
 
       setTimeout(() => {
-        window.location.href = "/Root/chat.html";
-      }, 1500);
+        window.location.href = "/Root/Dashboard";
+      }, 1500);r
 
     } catch (error) {
       console.error("🚨 Erro durante o login:", error);
