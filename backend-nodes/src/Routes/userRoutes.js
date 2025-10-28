@@ -38,26 +38,40 @@ router.post("/register",async (req, res) => {
 
 router.post("/login", async (req, res) => {
     const { email, senha } = req.body;
-    console.log(" /users/login recebido: ", req.body);
-
+  
+    console.log("📩 Requisição de login recebida:", { email, senha });
+  
+    if (!email || !senha) {
+      return res.status(400).json({ error: "Preencha todos os campos" });
+    }
+  
     try {
-        const users = await sequelize.query(
-            "SELECT * FROM usuarios WHERE email = ? AND senha = ?",
-         {
-            replacements: [email, senha],
-            type: QueryTypes.SELECT,
-         }
-            
-        );
-        if (users.length === 0) {
-            return res.status(401).json({error: "Credenciais inválidas"});
+      const users = await sequelize.query(
+        "SELECT * FROM usuarios WHERE email = ? AND senha = ?",
+        {
+          replacements: [email, senha],
+          type: QueryTypes.SELECT,
         }
-
-        console.log("✅ Login bem-sucedido: ", users[0]);
-        res.json({ message: "login realizado com sucesso", user: users[0] });
-    } catch (err){
-        console.error("Erro no login:", err);
-        res.status(500).json({error: "Erro no servidor"});
+      );
+  
+      console.log("🔍 Resultado da busca no banco:", users);
+  
+      if (!users || users.length === 0) {
+        console.log("🚫 Nenhum usuário encontrado");
+        return res.status(401).json({ error: "Credenciais inválidas" });
+      }
+  
+      console.log("✅ Login bem-sucedido:", users[0]);
+      return res.json({
+        message: "Login realizado com sucesso",
+        user: users[0],
+      });
+    } catch (err) {
+      console.error("💥 Erro no login:", err);
+      return res.status(500).json({
+        error: "Erro no servidor",
+        detalhes: err.message,
+      });
     }
 });
 

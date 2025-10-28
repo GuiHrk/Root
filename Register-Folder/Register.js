@@ -64,7 +64,7 @@ form.addEventListener('submit', async (e) => {
   }
 
   try {
-    // 🔥 Enviar dados para o backend
+    //  Enviar dados para o backend
     const res = await fetch(`${BACKEND_URL}/users/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -88,7 +88,7 @@ form.addEventListener('submit', async (e) => {
 
     // Redirecionar para o chat após 1.5s
     setTimeout(() => {
-      window.location.href = "/Root/chat.html";
+      window.location.href = "../chat.html";
     }, 1500);
 
     
