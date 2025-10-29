@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
       alert(`✅ Bem-vindo, ${data.user.nome}! Redirecionando...`);
 
       setTimeout(() => {
-        window.location.href = "/Root/Dashboard";
+        window.location.href = "../Dashboard/dashboard.html";
       }, 1500);
 
     } catch (error) {
