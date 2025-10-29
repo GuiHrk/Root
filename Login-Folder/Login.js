@@ -34,20 +34,23 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      localStorage.setItem("userId", data.user.id);
-      localStorage.setItem("userName", data.user.nome);
+      // ✅ Login bem-sucedido
+      if (data.success) {
+        // Salva informações do usuário
+        localStorage.setItem("userId", data.user.id);
+        localStorage.setItem("userName", data.user.nome);
 
-      alert(`✅ Bem-vindo, ${data.user.nome}! Redirecionando...`);
+        alert(`✅ Bem-vindo, ${data.user.nome}! Redirecionando...`);
 
-      setTimeout(() => {
-        window.location.href = "../Dashboard/dashboard.html";
-      }, 1500);
-
+        setTimeout(() => {
+          window.location.href = "../Dashboard/dashboard.html";
+        }, 1500);
+      } else {
+        alert("Usuário ou senha incorretos!");
+      }
     } catch (error) {
       console.error("🚨 Erro durante o login:", error);
       alert("Erro ao conectar com o servidor.");
     }
   });
 });
-
-    
