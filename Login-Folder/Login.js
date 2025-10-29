@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       setTimeout(() => {
         window.location.href = "/Root/Dashboard";
-      }, 1500);r
+      }, 1500);
 
     } catch (error) {
       console.error("🚨 Erro durante o login:", error);

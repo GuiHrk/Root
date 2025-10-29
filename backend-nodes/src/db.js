@@ -13,7 +13,9 @@ const sequelize = new Sequelize(
     logging: false,
     dialectOptions: {
       ssl: {
-        ca: fs.readFileSync(process.env.DB_SSL_CA),
+        require: true,
+        rejectUnauthorized: true, 
+        ca: fs.readFileSync(process.env.DB_SSL_CA), // caminho definido no Render
       },
     },
     pool: {
