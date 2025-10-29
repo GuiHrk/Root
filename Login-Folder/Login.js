@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
       try {
         data = await response.json();
       } catch {
-        console.error("❌ A resposta não é JSON (pode ser um erro 500 HTML)");
+        console.error("❌ A resposta não é JSON (pode ser erro 500 HTML)");
         alert("Erro inesperado no servidor.");
         return;
       }
@@ -34,9 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // ✅ Login bem-sucedido
+      // 🟢 Se chegou aqui, o login deu certo
       if (data.success) {
-        // Salva informações do usuário
         localStorage.setItem("userId", data.user.id);
         localStorage.setItem("userName", data.user.nome);
 
@@ -46,8 +45,9 @@ document.addEventListener("DOMContentLoaded", () => {
           window.location.href = "../Dashboard/dashboard.html";
         }, 1500);
       } else {
-        alert("Usuário ou senha incorretos!");
+        alert("Credenciais inválidas. Tente novamente.");
       }
+
     } catch (error) {
       console.error("🚨 Erro durante o login:", error);
       alert("Erro ao conectar com o servidor.");
