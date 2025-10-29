@@ -9,7 +9,8 @@
     
     <h1> Root Chat Beta 1.0 </h1>
 
-<style> body{
+<style> 
+body{
     background-color: blueviolet;
 
 };
@@ -23,9 +24,13 @@
     margin: 50px auto; 
     background-color: #f9f9f9;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+};
+
+.user-menu { display:flex; align-items:center; gap:10px; };
+.username { font-size:1rem; font-weight:500; };
+.user-avatar { width:35px; height:35px; border-radius:50%; background: var(--btn-cta-start); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:0.9rem; }
 
 
-}
 
 
 
@@ -99,6 +104,21 @@
         });
 
    </script>
+    <script> const usuarioNome = localStorage.getItem("usuarioNome");
+        if (!usuarioNome){
+            alert("Você precisa estar logado para acessar o Chat!");
+            window.location.href = "../Login-Folder/Login.html";
+        } else {
+            document.getElementById("usuarioNome").textContent = usuarioNome;
+        }
+    </script>
+
+<div class="user-menu">
+    <span class="username">Olá, Usuário</span>
+    <button class="menu-icon" id="openThemePanel">⋮</button>
+</div>
+
+
 
 </body>
 </html>
