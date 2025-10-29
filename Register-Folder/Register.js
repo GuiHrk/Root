@@ -6,7 +6,7 @@ const senhaInput = document.getElementById('senha');
 const confirmarSenhaInput = document.getElementById('confirmar-senha');
 
 // 🌐 URL do backend
-const BACKEND_URL = "http://127.0.0.1:3000"; 
+const BACKEND_URL = "https://root-backend-chat.onrender.com"; 
 
 // Função para mostrar alerta temporário
 function showAlert(message, type = 'error') {
