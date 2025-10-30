@@ -43,7 +43,7 @@
                     <button class="btn btn-project"> <a href="../chat.html"> Abrir  </a></button>
                 </div>
                 <div class="card">
-                    <h3>Configurações</h3>
+                    <h3>Configurações</h3> 
                     <p>Personalize sua experiência.</p>
                     <button class="btn btn-project" id="openSettings">Abrir</button>
                 </div>
@@ -121,5 +121,22 @@
     </aside>
 
     <script src="dashboard.js"></script>
+
+    <script> 
+    document.addEventListener("DOMContentLoaded", () => {
+  const userName = localStorage.getItem("userName");
+  const userId = localStorage.getItem("userId");
+
+  if (!userName || !userId) {
+    alert("⚠️ Você precisa estar logado para acessar esta página.");
+    window.location.href = "../Login-Folder/Login.html";
+    return;
+  }
+
+  const nameDisplay = document.querySelector(".username");
+  if (nameDisplay) nameDisplay.textContent = `Olá, ${userName}`;
+});
+      </script>
+
 </body>
 </html>
