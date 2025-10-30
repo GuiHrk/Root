@@ -33,8 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
         alert(data?.error || "Falha no login. Verifique suas credenciais.");
         return;
       }
-
-      // 🟢 Se chegou aqui, o login deu certo
       if (data.success) {
         localStorage.setItem("userId", data.user.id);
         localStorage.setItem("userName", data.user.nome);
