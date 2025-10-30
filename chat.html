@@ -37,7 +37,7 @@ body{
 
 </style>
 
-
+        <!-- Local caixa da mensagem -->
     <div id="chatBox" style="height: 400px; 
     width: 350px; 
     overflow-y: auto; 
@@ -48,7 +48,7 @@ body{
     background-color: #f9f9f9;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);"></div>
 
-
+<!-- local do texto -->
     <input id="mensagem" type="text" placeholder="Digite sua mensagem..." style="flex: 1;
       height: 40px; 
       padding: 10px 15px;
@@ -59,6 +59,7 @@ body{
       transition: border 0.2s;
       background-color: #fff;">
 
+<!-- Local do botão de enviar  -->
     <button style="padding: 0 20px;
     border: none;
     border-radius: 20px;
@@ -67,6 +68,13 @@ body{
     font-weight: bold;
     cursor: pointer;
     transition: background 0.2s;" id="sendBtn">Enviar</button>
+
+
+<div class="user-menu">
+    <span class="username">Olá, Usuário</span>
+    <button class="menu-icon" id="openThemePanel">⋮</button>
+</div>
+
 
 
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"> </script>
@@ -115,10 +123,7 @@ document.getElementById("sendBtn").addEventListener("click", async () => {
 
     </script>
 
-<div class="user-menu">
-    <span class="username">Olá, Usuário</span>
-    <button class="menu-icon" id="openThemePanel">⋮</button>
-</div>
+
 
 
 
