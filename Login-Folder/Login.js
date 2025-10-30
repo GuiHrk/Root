@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
       let data;
       try {
         data = await response.json();
+        console.log("Resposta do backend", data);
       } catch {
         console.error("❌ A resposta não é JSON (pode ser erro 500 HTML)");
         alert("Erro inesperado no servidor.");
