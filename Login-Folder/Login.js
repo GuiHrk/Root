@@ -19,22 +19,11 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify({ email, senha }),
       });
 
-      let data;
-      try {
-        data = await response.json();
-        console.log("Resposta do backend", data);
-      } catch {
-        console.error("❌ A resposta não é JSON (pode ser erro 500 HTML)");
-        alert("Erro inesperado no servidor.");
-        return;
-      }
+      const data = await response.json();
+      console.log("🔍 Resposta do backend:", data);
 
-      if (!response.ok) {
-        console.error("❌ Erro do servidor:", data);
-        alert(data?.error || "Falha no login. Verifique suas credenciais.");
-        return;
-      }
-      if (data.success) {
+      // Verifica se o login deu certo
+      if (data.message && data.message.includes("sucesso")) {
         localStorage.setItem("userId", data.user.id);
         localStorage.setItem("userName", data.user.nome);
 
@@ -44,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
           window.location.href = "../Dashboard/dashboard.html";
         }, 1500);
       } else {
-        alert("Credenciais inválidas. Tente novamente.");
+        alert(data.error || "Credenciais inválidas. Tente novamente.");
       }
 
     } catch (error) {
