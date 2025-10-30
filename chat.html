@@ -1,131 +1,129 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat - Home</title>
-</head>
-<body>
-    
-    <h1> Root Chat Beta 1.0 </h1>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat - Home</title>
+  <style>
+    body {
+      background-color: blueviolet;
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+    }
 
-<style> 
-body{
-    background-color: blueviolet;
+    #chatBox {
+      height: 400px;
+      width: 350px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 10px;
+      margin: 30px auto;
+      background-color: #f9f9f9;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      color: black;
+    }
 
-}
-
-#chatbox{ height: 400px; 
-    width: 350px; 
-    overflow-y: auto; 
-    border: 1px solid #ddd; 
-    border-radius: 12px; 
-    padding: 10px; 
-    margin: 50px auto; 
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-}
-
-.user-menu { display:flex; align-items:center; gap:10px; };
-.username { font-size:1rem; font-weight:500; };
-.user-avatar { width:35px; height:35px; border-radius:50%; background: var(--btn-cta-start); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:0.9rem; }
-
-
-
-
-
-
-</style>
-
-        <!-- Local caixa da mensagem -->
-    <div id="chatBox" style="height: 400px; 
-    width: 350px; 
-    overflow-y: auto; 
-    border: 1px solid #ddd; 
-    border-radius: 12px; 
-    padding: 10px; 
-    margin: 50px auto; 
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);"></div>
-
-<!-- local do texto -->
-    <input id="mensagem" type="text" placeholder="Digite sua mensagem..." style="flex: 1;
-      height: 40px; 
+    input#mensagem {
+      height: 40px;
+      width: 250px;
       padding: 10px 15px;
-      border: 1px solid #ccc; 
-      border-radius: 20px; 
+      border: 1px solid #ccc;
+      border-radius: 20px;
       outline: none;
       font-size: 14px;
-      transition: border 0.2s;
-      background-color: #fff;">
+      background-color: #fff;
+    }
 
-<!-- Local do botão de enviar  -->
-    <button style="padding: 0 20px;
-    border: none;
-    border-radius: 20px;
-    background-color: #007bff;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.2s;" id="sendBtn">Enviar</button>
+    button#sendBtn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      background-color: #007bff;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
+    .user-menu {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
 
-<div class="user-menu">
+    .username {
+      font-size: 1rem;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Root Chat Beta 1.0</h1>
+
+  <div id="chatBox"></div>
+
+  <div>
+    <input id="mensagem" type="text" placeholder="Digite sua mensagem...">
+    <button id="sendBtn">Enviar</button>
+  </div>
+
+  <div class="user-menu">
     <span class="username">Olá, Usuário</span>
-    <button class="menu-icon" id="openThemePanel">⋮</button>
-</div>
+    <button id="openThemePanel">⋮</button>
+  </div>
 
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const socket = io("https://root-backend-chat.onrender.com");
 
+      // Recupera dados do usuário logado
+      const userId = localStorage.getItem("userId");
+      const userName = localStorage.getItem("userName");
 
-    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"> </script>
-    <script>
- const socket = io("https://root-backend-chat.onrender.com");
+      if (!userId || !userName) {
+        alert("⚠️ Você precisa estar logado para acessar o chat!");
+        window.location.href = "../Login-Folder/Login.html";
+        return;
+      }
 
-// Recupera os dados do usuário logado
-const userId = localStorage.getItem("userId");
-const userName = localStorage.getItem("userName");
+      // Mostra o nome do usuário
+      const userLabel = document.querySelector(".username");
+      if (userLabel) userLabel.textContent = `Olá, ${userName}`;
 
-if (!userId || !userName) {
-  alert("⚠️ Você precisa estar logado para acessar o chat!");
-  window.location.href = "../Login-Folder/Login.html";
-}
+      socket.on("connect", () => {
+        console.log("🟢 Conectado ao servidor via socket");
+      });
 
-document.querySelector(".username").textContent = `Olá, ${userName}`;
+      socket.on("novaMensagem", (msg) => {
+        console.log("📩 Nova mensagem recebida:", msg);
+        const elem = document.createElement("div");
+        elem.textContent = `${msg.userName || "Usuário " + msg.userId}: ${msg.content}`;
+        document.getElementById("chatBox").appendChild(elem);
+      });
 
-socket.on("connect", () => {
-  console.log("🟢 Conectado ao servidor via socket");
-});
+      async function sendMessageToServer(userId, content) {
+        console.log("📤 Enviando para o servidor:", { userId, content });
+        const res = await fetch("https://root-backend-chat.onrender.com/messages/send", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId, content })
+        });
+        return res.json();
+      }
 
-socket.on("novaMensagem", (msg) => {
-  console.log("📩 Nova mensagem recebida:", msg);
-  const elem = document.createElement("div");
-  elem.textContent = `Usuário ${msg.userId}: ${msg.content}`;
-  document.getElementById("chatBox").appendChild(elem);
-});
+      document.getElementById("sendBtn").addEventListener("click", async () => {
+        const content = document.getElementById("mensagem").value.trim();
+        if (!content) return;
 
-async function sendMessageToServer(userId, content) {
-  console.log("📤 Enviando para o servidor:", { userId, content });
-  const res = await fetch("https://root-backend-chat.onrender.com/messages/send", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ userId, content })
-  });
-  return res.json();
-}
-
-document.getElementById("sendBtn").addEventListener("click", async () => {
-  const content = document.getElementById("mensagem").value.trim();
-  if (!content) return;
-
-  await sendMessageToServer(userId, content);
-  document.getElementById("mensagem").value = "";
-});
-
-    </script>
-
-
-
-
-
+        await sendMessageToServer(userId, content);
+        document.getElementById("mensagem").value = "";
+      });
+    });
+  </script>
 </body>
 </html>
