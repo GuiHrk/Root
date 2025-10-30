@@ -71,50 +71,46 @@ body{
 
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"> </script>
     <script>
- document.addEventListener("DOMContentLoaded", () => {
-  const userName = localStorage.getItem("userName");
-  const userId = localStorage.getItem("userId");
+ const socket = io("https://root-backend-chat.onrender.com");
 
-  if (!userName || !userId) {
-    alert("⚠️ Você precisa estar logado para acessar o Chat!");
-    window.location.href = "../Login-Folder/Login.html";
-    return;
-  }
+// Recupera os dados do usuário logado
+const userId = localStorage.getItem("userId");
+const userName = localStorage.getItem("userName");
 
-  // Mostra o nome do usuário (se quiser exibir no topo)
-  const userLabel = document.querySelector(".username");
-  if (userLabel) userLabel.textContent = `Olá, ${userName}`;
+if (!userId || !userName) {
+  alert("⚠️ Você precisa estar logado para acessar o chat!");
+  window.location.href = "../Login-Folder/Login.html";
+}
 
-  const socket = io("https://root-backend-chat.onrender.com");
+document.querySelector(".username").textContent = `Olá, ${userName}`;
 
-  socket.on("connect", () => {
-    console.log("Conectado ao servidor via socket");
+socket.on("connect", () => {
+  console.log("🟢 Conectado ao servidor via socket");
+});
+
+socket.on("novaMensagem", (msg) => {
+  console.log("📩 Nova mensagem recebida:", msg);
+  const elem = document.createElement("div");
+  elem.textContent = `Usuário ${msg.userId}: ${msg.content}`;
+  document.getElementById("chatBox").appendChild(elem);
+});
+
+async function sendMessageToServer(userId, content) {
+  console.log("📤 Enviando para o servidor:", { userId, content });
+  const res = await fetch("https://root-backend-chat.onrender.com/messages/send", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userId, content })
   });
+  return res.json();
+}
 
-  socket.on("novaMensagem", (msg) => {
-    console.log("Nova mensagem recebida:", msg);
-    const elem = document.createElement("div");
-    elem.textContent = `${msg.userName || "Usuário " + msg.userId}: ${msg.content}`;
-    document.getElementById("chatBox").appendChild(elem);
-  });
+document.getElementById("sendBtn").addEventListener("click", async () => {
+  const content = document.getElementById("mensagem").value.trim();
+  if (!content) return;
 
-  async function sendMessageToServer(userId, content) {
-    console.log("Enviando para o servidor:", { userId, content });
-    const res = await fetch("https://root-backend-chat.onrender.com/messages/send", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId, content })
-    });
-    return res.json();
-  }
-
-  document.getElementById("sendBtn").addEventListener("click", async () => {
-    const content = document.getElementById("mensagem").value.trim();
-    if (!content) return;
-
-    await sendMessageToServer(userId, content);
-    document.getElementById("mensagem").value = "";
-  });
+  await sendMessageToServer(userId, content);
+  document.getElementById("mensagem").value = "";
 });
 
     </script>
