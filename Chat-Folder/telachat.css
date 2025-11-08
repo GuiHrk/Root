@@ -1,0 +1,901 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* ==========================================================
+    1. VARIÁVEIS CSS (Temas Escuro e Claro)
+    ========================================================== */
+
+:root {
+    /* CORES DE CONTROLE GERAL (Serão sobrescritas se o JS mudar a cor-primaria) */
+    --cor-primaria: #a855f7; /* Cor de Destaque (Purple padrão) */
+    --cor-primaria-escura: #6d28d9; /* Versão escura da cor primária */
+    --cor-primaria-clara: #c084fc; /* Versão clara (para hover) */
+    --cor-fundo-main: #1a0c26; /* Cor principal de fundo do Body (Dark) */
+    --cor-sucesso: #10b981;
+    --cor-alerta: #f59e0b;
+    --cor-perigo: #ef4444;
+
+    /* CORES DO TEMA ESCURO (Padrão) */
+    --cor-fundo-chat-app: rgba(26, 12, 38, 0.6); 
+    --cor-fundo-sidebar: rgba(36, 16, 56, 0.4); 
+    --cor-fundo-item: rgba(255, 255, 255, 0.05); 
+    --cor-fundo-item-hover: rgba(255, 255, 255, 0.12); 
+    --cor-borda: rgba(255, 255, 255, 0.05);
+    --cor-texto: #eaeaea;
+    --cor-texto-secundaria: #aaa;
+    --cor-fundo-input: rgba(255, 255, 255, 0.07);
+    --cor-fundo-input-focus: rgba(255, 255, 255, 0.12);
+    --sombra-principal: 0 10px 40px rgba(0,0,0,0.6);
+}
+
+
+/* Definição do TEMA CLARO (Sobrescrita) */
+.chat-app.light-theme {
+    /* FUNDO E BORDAS */
+    --cor-fundo-main: #f0f0f5; 
+    --cor-fundo-chat-app: rgba(255, 255, 255, 0.95);
+    --cor-fundo-sidebar: rgba(245, 245, 250, 0.9);
+    --cor-fundo-item: rgba(0, 0, 0, 0.05);
+    --cor-fundo-item-hover: rgba(0, 0, 0, 0.1);
+    --cor-borda: rgba(0, 0, 0, 0.1);
+
+    /* TEXTO E INPUT */
+    --cor-texto: #1f1f1f;
+    --cor-texto-secundaria: #555;
+    --cor-fundo-input: #ffffff;
+    --cor-fundo-input-focus: #fafafa;
+    --sombra-principal: 0 10px 40px rgba(0,0,0,0.2);
+    
+    color: var(--cor-texto);
+}
+
+/* ==========================================================
+    2. ESTILOS BASE E LAYOUT PRINCIPAL
+    ========================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    /* Transição geral para suavizar mudanças de tema */
+    transition: color 0.3s, background-color 0.3s, border-color 0.3s, box-shadow 0.3s; 
+}
+
+
+body {
+    background: radial-gradient(circle at top left, var(--cor-primaria) 1%, transparent 60%),
+                radial-gradient(circle at bottom right, var(--cor-primaria) 1%, transparent 60%),
+                var(--cor-fundo-main);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--cor-texto);
+    overflow: hidden;
+    transition: background 0.5s; 
+}
+
+
+/* CONTAINER PRINCIPAL */
+.chat-app {
+    display: flex;
+    width: 1000px;
+    max-width: 95%;
+    height: 600px;
+    max-height: 95vh;
+    background: var(--cor-fundo-chat-app); 
+    backdrop-filter: blur(15px);
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: var(--sombra-principal); /* Uso da variável */
+}
+
+
+/* ==========================================================
+    3. SIDEBAR E NAVEGAÇÃO
+    ========================================================== */
+
+.sidebar {
+    width: 280px;
+    min-width: 250px;
+    background: var(--cor-fundo-sidebar); 
+    backdrop-filter: blur(12px);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    color: var(--cor-texto);
+    border-right: 1px solid var(--cor-borda);
+    overflow-y: auto;
+}
+
+
+/* SIDEBAR HEADER */
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.logo-image {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+}
+
+.site-name {
+    flex-grow: 1;
+    margin-left: 10px;
+}
+
+/* SEARCH BAR */
+.search-bar-container {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 15px 10px 38px; /* Aumentei o padding para melhor toque */
+    border-radius: 10px;
+    border: 1px solid var(--cor-borda);
+    background: var(--cor-fundo-item);
+    color: var(--cor-texto);
+    outline: none;
+    font-size: 15px; /* Tamanho levemente maior */
+    transition: 0.3s;
+}
+
+.search-input:focus {
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 5px rgba(168, 85, 247, 0.5);
+}
+
+.search-input::placeholder { color: var(--cor-texto-secundaria); opacity: 0.8; }
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--cor-texto-secundaria);
+    font-size: 16px;
+}
+
+/* NAV & LIST */
+.nav-section h4 {
+    font-weight: 500;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: var(--cor-texto-secundaria);
+}
+
+.channel-list, .dm-list {
+    list-style: none;
+    margin-bottom: 20px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--cor-fundo-item);
+    padding: 10px 15px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 15px;
+    position: relative; 
+    border: 1px solid transparent; /* Adicionado para evitar pulos no hover */
+}
+
+
+.nav-item:hover:not(.active) {
+    background: var(--cor-fundo-item-hover);
+    transform: translateY(-2px);
+    border-color: var(--cor-borda);
+}
+
+.nav-item.active {
+    background: var(--cor-primaria);
+    color: white;
+    box-shadow: 0 4px 15px var(--cor-primaria-escura); 
+    font-weight: 500;
+}
+
+.nav-item i.fas {
+    color: inherit;
+    font-size: 16px; /* Ajuste no tamanho do ícone */
+}
+
+.nav-item.add-new {
+    color: var(--cor-primaria);
+    font-weight: 500;
+    background: none;
+    border: 1px solid var(--cor-borda);
+}
+.nav-item.add-new:hover {
+    background: color-mix(in srgb, var(--cor-primaria) 15%, transparent); 
+    transform: none;
+    border-color: var(--cor-primaria-clara);
+}
+
+.nav-text {
+    display: inline-block;
+    flex-grow: 1;
+    margin-right: 40px; 
+    white-space: nowrap; /* Evita quebra de linha */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adiciona reticências se o texto for muito longo */
+}
+
+/* ÍCONE DE EXCLUSÃO */
+.delete-icon {
+    position: absolute;
+    right: 10px; /* Mais perto da borda */
+    top: 50%;
+    transform: translateY(-50%) scale(0.9);
+    cursor: pointer;
+    font-size: 12px;
+    z-index: 10;
+    
+    color: var(--cor-texto-secundaria);
+    background: var(--cor-fundo-input); /* Reuso de variável para fundo */
+    border: 1px solid var(--cor-borda);
+    border-radius: 50%;
+    width: 24px; /* Levemente maior */
+    height: 24px;
+    line-height: 22px;
+    text-align: center;
+    
+    opacity: 0;
+    transition: all 0.3s ease-in-out; 
+}
+
+
+.nav-item:hover .delete-icon {
+    opacity: 1;
+    transform: translateY(-50%) scale(1); 
+    color: var(--cor-perigo); 
+    background: color-mix(in srgb, var(--cor-perigo) 20%, transparent);
+    border-color: color-mix(in srgb, var(--cor-perigo) 50%, transparent);
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
+}
+
+.nav-item.active .delete-icon {
+    opacity: 0 !important; 
+    pointer-events: none; 
+}
+
+
+/* ==========================================================
+    4. AVATAR E STATUS
+    ========================================================== */
+
+/* AVATAR COM INICIAIS/IMAGEM */
+.user-avatar-small, .user-initials, .header-initials, .profile-avatar {
+    width: 38px; /* Tamanho levemente maior */
+    height: 38px;
+    border-radius: 50%;
+    background: var(--cor-primaria-escura); 
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 600;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden; /* Garante que a imagem se encaixe */
+}
+
+/* Estilo para o span da inicial (fallback) */
+.initials-text {
+    width: 100%;
+    height: 100%;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+}
+
+/* Garante que a imagem preencha o círculo */
+.user-avatar-small img, .profile-avatar img,
+.user-initials img, .header-initials img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2; 
+}
+
+/* INDICADOR DE STATUS */
+.status-indicator {
+    position: absolute;
+    bottom: 0px; /* Ajuste para não sair muito da borda */
+    right: 0px;
+    width: 13px; /* Levemente maior */
+    height: 13px;
+    border-radius: 50%;
+    border: 3px solid var(--cor-fundo-main); /* Borda mais grossa */
+    z-index: 3;
+}
+/* AJUSTE PARA O INDICADOR DE STATUS NO PERFIL (3/3) - Borda mais escura ou clara conforme o tema */
+.chat-app.light-theme .status-indicator {
+    border-color: #f0f0f5; /* Cor mais clara para se destacar no tema claro */
+}
+
+
+.dot-green { background-color: var(--cor-sucesso); }
+.dot-yellow { background-color: var(--cor-alerta); }
+.dot-red { background-color: var(--cor-perigo); }
+.dot-gray { background-color: #9ca3af; }
+
+
+/* USER PROFILE */
+.user-profile-status {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid var(--cor-borda);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 5px; /* Área de clique */
+    border-radius: 8px;
+    transition: 0.2s;
+}
+.profile-info:hover {
+    background: var(--cor-fundo-item);
+}
+
+
+.settings-icon {
+    font-size: 18px;
+    color: var(--cor-texto-secundaria);
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 5px;
+    border-radius: 50%;
+}
+.settings-icon:hover { 
+    color: var(--cor-primaria); 
+    background: var(--cor-fundo-item);
+}
+
+
+/* ==========================================================
+    5. CHAT MAIN, HEADER E AÇÕES
+    ========================================================== */
+
+.chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--cor-fundo-chat-app); 
+    backdrop-filter: blur(12px);
+}
+
+/* CHAT HEADER */
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    background: var(--cor-fundo-sidebar); 
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.channel-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Estilização do status no cabeçalho (para DMs) */
+.chat-header .channel-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.chat-header .channel-title .status-dot-header {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: -4px;
+}
+
+.chat-header .channel-title .header-status-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--cor-texto-secundaria);
+    padding-left: 8px; /* Ajuste para melhor separação */
+    border-left: 1px solid rgba(255,255,255,0.2); 
+    transition: border-color 0.3s;
+}
+.chat-app.light-theme .chat-header .channel-title .header-status-text {
+    border-left: 1px solid rgba(0,0,0,0.2);
+}
+
+
+.chat-actions i {
+    margin-left: 20px;
+    font-size: 18px;
+    color: var(--cor-texto-secundaria);
+    cursor: pointer;
+    transition: 0.2s;
+}
+.chat-actions i:hover { color: var(--cor-primaria, #a855f7); }
+
+
+/* ==========================================================
+    6. MENSAGENS E CHAT BUBBLES
+    ========================================================== */
+
+.messages-container {
+    flex: 1;
+    padding: 20px 25px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Levemente mais espaço */
+    scroll-behavior: smooth;
+}
+
+/* Linha da mensagem */
+.message-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end; /* Alinhar o avatar com o balão */
+}
+
+/* Mensagens enviadas (alinhadas à direita) */
+.message-row.sent {
+    flex-direction: row-reverse;
+    align-items: flex-end;
+}
+
+.message-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    background: var(--cor-primaria-escura); 
+    color: white;
+}
+
+.message-avatar img {
+    /* Garante que a imagem preencha o círculo */
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    border-radius: 50%;
+}
+
+
+/* wrapper de conteúdo */
+.message-content-wrapper {
+    max-width: 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+.message-header {
+    font-size: 12px; /* Levemente menor */
+    color: var(--cor-texto-secundaria);
+    margin-bottom: 4px;
+    align-self: flex-start; /* Padrão (received) */
+}
+
+.message-row.sent .message-header {
+    align-self: flex-end; /* Alinha o nome/hora à direita para mensagens enviadas */
+}
+
+
+.message-body {
+    max-width: 100%;
+    padding: 12px 16px;
+    border-radius: 18px; /* Mais arredondado */
+    font-size: 15px;
+    position: relative;
+    animation: fadeIn 0.3s ease;
+    line-height: 1.4;
+    word-wrap: break-word; /* Garante quebras de linha longas */
+}
+
+
+/* Estilo da mensagem SENT */
+.sent .message-body {
+    background: linear-gradient(135deg, var(--cor-primaria), var(--cor-primaria-escura));
+    backdrop-filter: blur(8px);
+    color: white;
+    border-bottom-right-radius: 8px; /* Curva menor no canto da seta */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Sombra mais sutil */
+    text-align: left; 
+}
+
+
+/* Estilo da mensagem RECEIVED */
+.received .message-body {
+    background: var(--cor-fundo-item); 
+    backdrop-filter: blur(8px);
+    color: var(--cor-texto);
+    border-bottom-left-radius: 8px;
+    border: 1px solid var(--cor-borda);
+    text-align: left;
+}
+.chat-app.light-theme .received .message-body {
+    background: rgba(0,0,0,0.06);
+    border: 1px solid rgba(0,0,0,0.08);
+}
+
+
+.time {
+    font-size: 11px;
+    opacity: 0.7;
+    margin-top: 6px;
+    display: block;
+    text-align: right; /* Sempre à direita do balão, independentemente do header */
+}
+
+.message-row.received .message-content-wrapper .time {
+    text-align: left; /* À esquerda do balão recebido */
+}
+
+
+/* Markdown inline styles (Acessibilidade e contraste) */
+.message-body a { 
+    color: var(--cor-primaria-clara); 
+    text-decoration: underline; 
+    font-weight: 500;
+}
+.message-body strong { font-weight: 700; }
+.message-body em { font-style: italic; }
+.message-body code { 
+    background: rgba(255, 255, 255, 0.15); 
+    padding: 2px 4px; 
+    border-radius: 4px; 
+    font-family: monospace; 
+    font-size: 0.95em;
+}
+.chat-app.light-theme .message-body code { 
+    background: rgba(0, 0, 0, 0.1); 
+    color: #333;
+}
+
+
+/* ==========================================================
+    7. INPUT COMPOSER
+    ========================================================== */
+
+.message-composer {
+    padding: 15px 20px;
+    background: var(--cor-fundo-sidebar);
+    border-top: 1px solid var(--cor-borda);
+    backdrop-filter: blur(10px);
+}
+
+.toolbar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+    color: var(--cor-texto-secundaria);
+    align-items: center;
+}
+
+.toolbar i {
+    cursor: pointer;
+    transition: color 0.2s, background 0.2s, transform 0.2s;
+    padding: 5px; /* Área de toque maior */
+    border-radius: 6px;
+    font-size: 18px;
+}
+
+
+.toolbar i:hover {
+    color: var(--cor-primaria, #a855f7);
+    background: var(--cor-fundo-item-hover);
+}
+
+.toolbar i.active {
+    color: var(--cor-primaria);
+    background: color-mix(in srgb, var(--cor-primaria) 20%, transparent); 
+    border: 1px solid var(--cor-primaria);
+    transform: scale(1.05);
+}
+
+.input-area {
+    display: flex;
+    align-items: center;
+}
+
+.input-area input {
+    flex: 1;
+    border: none;
+    border-radius: 25px; /* Mais arredondado */
+    padding: 12px 20px;
+    font-size: 16px;
+    outline: none;
+    background: var(--cor-fundo-input);
+    color: var(--cor-texto);
+    transition: 0.3s;
+    line-height: 1.4;
+}
+
+.input-area input:focus { 
+    background: var(--cor-fundo-input-focus); 
+    box-shadow: 0 0 0 2px var(--cor-primaria-escura);
+}
+
+
+.send-btn {
+    background: var(--cor-primaria);
+    border: none;
+    color: white;
+    width: 45px; /* Tamanho fixo */
+    height: 45px;
+    border-radius: 50%;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--cor-primaria) 40%, transparent);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+
+.send-btn:hover {
+    background: var(--cor-primaria-escura);
+    transform: scale(1.08);
+    box-shadow: 0 4px 20px color-mix(in srgb, var(--cor-primaria) 70%, transparent);
+}
+
+
+/* ==========================================================
+    8. MODAIS E BOTÕES
+    ========================================================== */
+
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.modal-overlay.open { 
+    display: flex; 
+    opacity: 1;
+}
+
+.modal-content {
+    background: var(--cor-fundo-chat-app);
+    backdrop-filter: blur(20px);
+    padding: 30px; /* Levemente mais padding */
+    border-radius: 18px;
+    box-shadow: 0 10px 50px rgba(0,0,0,0.8);
+    color: var(--cor-texto);
+    width: 420px;
+    max-width: 90%;
+    border: 1px solid var(--cor-borda);
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+    position: relative; /* Garante que o conteúdo fique acima do overlay */
+}
+.modal-overlay.open .modal-content {
+    transform: scale(1);
+}
+
+
+.modal-content h3, .modal-content h4 {
+    margin-bottom: 16px;
+    color: var(--cor-primaria-clara);
+    font-weight: 600;
+    border-bottom: 1px solid var(--cor-borda);
+    padding-bottom: 10px;
+}
+
+
+.modal-actions { margin-top: 20px; display: flex; justify-content: flex-end; gap: 12px; }
+
+/* BOTÕES PADRÃO */
+.primary-btn, .secondary-btn, .danger-btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.primary-btn {
+    background-color: var(--cor-primaria);
+    color: white;
+}
+.primary-btn:hover { background-color: var(--cor-primaria-escura); }
+.primary-btn:active { transform: scale(0.98); }
+
+
+.secondary-btn {
+    background: var(--cor-fundo-item-hover);
+    color: var(--cor-texto);
+    border: 1px solid var(--cor-borda);
+}
+.secondary-btn:hover { background: color-mix(in srgb, var(--cor-primaria) 15%, transparent); }
+.secondary-btn:active { transform: scale(0.98); }
+
+/* Botão de exclusão perigosa */
+.danger-btn {
+    background-color: var(--cor-perigo) !important;
+    color: white;
+}
+.danger-btn:hover {
+    background-color: #dc2626 !important;
+}
+
+
+/* --- MODAL CRIAR CANAL --- */
+.modal-content.create-channel {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 450px;
+}
+.channel-name-and-type {
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+}
+.channel-name-and-type > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.modal-content.create-channel label {
+    font-weight: 500;
+    color: var(--cor-texto-secundaria);
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+.modal-content.create-channel input[type="text"],
+.modal-content.create-channel select,
+.modal-content.create-channel textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--cor-borda);
+    background: var(--cor-fundo-input);
+    color: var(--cor-texto);
+    outline: none;
+    font-size: 15px;
+    resize: vertical;
+    transition: 0.3s;
+}
+.modal-content.create-channel input:focus,
+.modal-content.create-channel select:focus,
+.modal-content.create-channel textarea:focus {
+    border-color: var(--cor-primaria-clara);
+    box-shadow: 0 0 0 1px var(--cor-primaria);
+}
+
+
+/* Estilo para SELECT com seta personalizada */
+.modal-content.create-channel select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23aaa'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 14px;
+    padding-right: 30px;
+}
+.chat-app.light-theme .modal-content.create-channel select {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23555'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+}
+
+
+/* --- MODAL STATUS --- */
+.status-list {
+    list-style: none;
+    display: flex;
+    gap: 12px;
+    padding: 0;
+    margin-bottom: 0;
+    flex-wrap: wrap;
+    /* AJUSTE PARA O MODAL (3/3) - Permite que os botões de status flutuem sem interferir no cabeçalho */
+    margin-top: 15px; 
+}
+.status-list li {
+    cursor: pointer;
+    padding: 10px 16px;
+    border-radius: 12px;
+    background: var(--cor-fundo-item);
+    transition: 0.2s;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid transparent;
+}
+.status-list li:hover { 
+    background: var(--cor-fundo-item-hover); 
+    border-color: var(--cor-primaria);
+}
+.status-list li span.status-indicator {
+    position: static;
+    width: 12px;
+    height: 12px;
+}
+
+
+/* --- MODAL EMOJI --- */
+.emoji-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Mais espaçamento */
+    font-size: 30px;
+    margin-bottom: 0;
+}
+.emoji-grid span {
+    cursor: pointer;
+    transition: transform 0.1s;
+    padding: 5px;
+    line-height: 1; /* Alinhamento visual */
+}
+.emoji-grid span:hover {
+    transform: scale(1.3);
+}
+
+
+/* ==========================================================
+    9. ANIMAÇÕES E SCROLLBAR
+    ========================================================== */
+
+/* ANIMAÇÃO */
+@keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 8px; } /* Largura um pouco maior */
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+.chat-app.light-theme ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.3); }
+
+/* Foco em elementos interativos */
+:focus-visible {
+    outline: 2px solid var(--cor-primaria-clara);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Remover foco customizado do input-area, já tem no input */
+.input-area input:focus-visible {
+    outline: none;
+}

@@ -29,6 +29,7 @@ const profileForm = document.querySelector('.user-info');
 // TEMA E INICIALIZAÇÃO
 // ===============================================
 
+// ✅ FUNÇÃO ÚNICA: Define as cores do tema claro/escuro
 function getThemeColors(themeName) {
     
     if (themeName === "light") {
@@ -51,30 +52,30 @@ function getThemeColors(themeName) {
         };
     }
 }
-
-
+    
+// ✅ FUNÇÃO ATUALIZADA: Aplica o tema e as cores do Dashboard
 function applySavedTheme() {
     
     const savedThemeName = localStorage.getItem('theme') || 'dark';
     const themeColors = getThemeColors(savedThemeName);
     
-    
+    // 1. Aplica cores de fundo/texto (tema claro/escuro)
     for (const [prop, value] of Object.entries(themeColors)) {
         root.style.setProperty(prop, value);
     }
     
-
+    // 2. Aplica a cor principal (cor de sotaque)
     const savedColor = localStorage.getItem("color");
-    
     const primaryColor = savedColor || defaultThemeColor; 
     
-
-    root.style.setProperty('--primary', primaryColor);
-
+    // LINHAS CRUCIAIS: Define as variáveis que o CSS usa para a cor principal/interativa
+    root.style.setProperty('--btn-cta-start', primaryColor);
+    root.style.setProperty('--btn-cta-end', primaryColor);
     root.style.setProperty('--primary-hover', primaryColor); 
+
 }
 
-
+// Chama a função para aplicar o tema e a cor na inicialização
 applySavedTheme();
 
 
@@ -344,8 +345,8 @@ function formatDateTime(locale, dateFormat, timeFormat) {
     let dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
     
     if (dateFormat === 'yyyy-mm-dd') {
-          // Formato ISO: usa um locale neutro para YYYY-MM-DD
-          dateLocale = 'sv-SE';
+             // Formato ISO: usa um locale neutro para YYYY-MM-DD
+             dateLocale = 'sv-SE';
     } else if (dateFormat === 'mm/dd/yyyy') {
         // Formato Americano: força locale en-US
         dateLocale = 'en-US'; 
