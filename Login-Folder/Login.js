@@ -1,44 +1,42 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector("form");
+import { auth, db } from "../firebaseconfig.js";
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+import { ref, get, child } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+const form = document.querySelector("form");
 
-    const email = document.getElementById("email").value.trim();
-    const senha = document.getElementById("senha").value.trim();
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-    if (!email || !senha) {
-      alert("Preencha todos os campos!");
+  const email = document.getElementById("email").value.trim();
+  const senha = document.getElementById("senha").value.trim();
+
+  if (!email || !senha) {
+    alert("Preencha todos os campos!");
+    return;
+  }
+
+  try {
+    const cred = await signInWithEmailAndPassword(auth, email, senha);
+
+    // pega dados do usuário no Realtime Database
+    const dbRef = ref(db);
+    const snap = await get(child(dbRef, `users/${cred.user.uid}`));
+
+    if (!snap.exists()) {
+      alert("Usuário não encontrado no banco!");
       return;
     }
 
-    try {
-      const response = await fetch("https://root-backend-chat.onrender.com/users/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, senha }),
-      });
+    alert("Login realizado com sucesso!");
+    window.location.href = "../Chat-Folder/telachat.html";
 
-      const data = await response.json();
-      console.log("🔍 Resposta do backend:", data);
+  } catch (error) {
+    console.error(error);
 
-      // Verifica se o login deu certo
-      if (data.message && data.message.includes("sucesso")) {
-        localStorage.setItem("userId", data.user.id);
-        localStorage.setItem("userName", data.user.nome);
-
-        alert(`✅ Bem-vindo, ${data.user.nome}! Redirecionando...`);
-
-        setTimeout(() => {
-          window.location.href = "../Dashboard/dashboard.html";
-        }, 1500);
-      } else {
-        alert(data.error || "Credenciais inválidas. Tente novamente.");
-      }
-
-    } catch (error) {
-      console.error("🚨 Erro durante o login:", error);
-      alert("Erro ao conectar com o servidor.");
+    if (error.code === "auth/invalid-credential") {
+      alert("E-mail ou senha incorretos.");
+    } else {
+      alert("Erro ao fazer login: " + error.message);
     }
-  });
+  }
 });
