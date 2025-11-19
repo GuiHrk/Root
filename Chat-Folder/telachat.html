@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!-- <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -221,6 +221,215 @@
         </div>
     </div>
 
-    <script src="telachat.js"></script>
+    <script type="module" src="chat.js"></script>
+    <script src="Chat-Folder/telachat.js"></script>
+    <script src="firebaseconfig.js"></script>
 </body>
-</html>  
+</html>   -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App - Responsive UI</title>
+    <link rel="stylesheet" href="telachat.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+    <div class="chat-app dark-theme">
+
+        <aside class="sidebar">
+
+            <div class="sidebar-header">
+                <img src="../Index_folder/logo (1).png" alt="Logo" class="logo-image">
+                <span class="site-name">Clackin</span>
+            </div>
+
+            <div class="search-bar-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Buscar canais ou DMs...">
+            </div>
+
+            <div class="nav-section channels">
+                <h4>CANAIS</h4>
+                <ul class="channel-list">
+                    <li class="nav-item active" data-channel="#geral">
+                        <i class="fas fa-hashtag"></i>
+                        <span class="nav-text">geral</span>
+                        <i class="fas fa-times delete-icon" data-type="channel"></i>
+                    </li>
+                    <li class="nav-item" data-channel="#ti-agriltech">
+                        <i class="fas fa-hashtag"></i>
+                        <span class="nav-text">ti-agriltech</span>
+                        <i class="fas fa-times delete-icon" data-type="channel"></i>
+                    </li>
+                    <li class="nav-item add-new">
+                        <i class="fas fa-plus"></i>
+                        <span class="nav-text">Novo Canal</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-section dms">
+                <h4>MENSAGENS DIRETAS</h4>
+                <ul class="dm-list">
+                    <!-- As DMs serão adicionadas dinamicamente aqui -->
+                </ul>
+            </div>
+
+            <div class="user-profile-status">
+                <div class="profile-info">
+                    <div class="profile-avatar" id="current-user-avatar">
+                        <span class="initials-text">TS</span>
+                        <img id="profile-pic-img" src="" alt="Avatar">
+                        <span class="status-indicator profile-status-icon dot-green"></span>
+                    </div>
+                    <span class="profile-name">Você</span>
+                </div>
+                <i class="fas fa-cog settings-icon" title="Mudar Status" role="button"></i>
+            </div>
+
+        </aside>
+
+        <main class="chat-main">
+
+            <header class="chat-header">
+                <div class="channel-info">
+                    <div class="header-initials">
+                        <span class="initials-text">MD</span>
+                        <img id="header-contact-pic" src="" alt="Avatar do Contato" style="display: none;">
+                    </div>
+                    <div class="channel-title">
+                        <h3>Matheus.David</h3>
+                    </div>
+                </div>
+                <div class="chat-actions">
+                    <i class="fas fa-search" title="Buscar na Conversa"></i>
+                    <i class="fas fa-video" title="Iniciar Ligação de Vídeo"></i>
+                    <i class="fas fa-phone" title="Iniciar Ligação de Voz"></i>
+                </div>
+            </header>
+
+            <div class="messages-container">
+                <!-- As mensagens serão carregadas aqui -->
+            </div>
+
+            <footer class="message-composer">
+                <div class="toolbar">
+                    <i class="fas fa-bold" title="Negrito (**texto**)"></i>
+                    <i class="fas fa-italic" title="Itálico (*texto*)"></i>
+                    <i class="fas fa-code" title="Código Inline (`code`)"></i>
+                    <i class="fas fa-link" title="Link Markdown ([texto](url))"></i>
+                    <i class="fas fa-paperclip" title="Anexar Arquivo"></i>
+                    <i class="fas fa-smile" id="emoji-trigger" title="Emojis"></i>
+                </div>
+                <div class="input-area">
+                    <input type="text" id="message-input" placeholder="Envie uma mensagem..." autocomplete="off">
+                    <button id="send-btn" class="send-btn" title="Enviar Mensagem">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                    <input type="file" id="file-input" style="display: none;">
+                </div>
+            </footer>
+        </main>
+
+    </div>
+
+    <div class="modal-overlay" id="emoji-modal">
+        <div class="modal-content">
+            <h3>Selecione um Emoji</h3>
+            <div class="emoji-grid">
+                <span>😀</span><span>😂</span><span>😍</span><span>🤔</span><span>🤯</span><span>👍</span>
+                <span>👏</span><span>🔥</span><span>💻</span><span>✅</span><span>🎉</span><span>🥳</span>
+                <span>🐶</span><span>🐱</span><span>🍕</span><span>🍔</span><span>☕</span><span>🚀</span>
+            </div>
+            <div class="modal-actions">
+                <button class="secondary-btn" onclick="document.getElementById('emoji-modal').classList.remove('open')">Fechar</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="create-channel-modal">
+        <div class="modal-content create-channel">
+            <h3>Criar Novo Canal</h3>
+            <div class="channel-name-and-type">
+                <div>
+                    <label for="channel-name">Nome do Canal</label>
+                    <input type="text" id="channel-name" placeholder="ex: suporte-devops">
+                </div>
+                <div>
+                    <label for="channel-type">Tipo</label>
+                    <select id="channel-type">
+                        <option value="public"># Público</option>
+                        <option value="private">🔒 Privado</option>
+                    </select>
+                </div>
+            </div>
+            <label for="channel-description">Descrição (Opcional)</label>
+            <textarea id="channel-description" rows="3" placeholder="O que o canal aborda?"></textarea>
+            
+            <div class="modal-actions">
+                <button class="secondary-btn" onclick="document.getElementById('create-channel-modal').classList.remove('open')">Cancelar</button>
+                <button class="primary-btn" id="create-channel-submit">Criar Canal</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="status-modal">
+        <div class="modal-content">
+            <h3>Mudar Status</h3>
+            <ul class="status-list">
+                <li data-status="green">
+                    <span class="status-indicator dot-green"></span>
+                    Disponível
+                </li>
+                <li data-status="yellow">
+                    <span class="status-indicator dot-yellow"></span>
+                    Ausente
+                </li>
+                <li data-status="red">
+                    <span class="status-indicator dot-red"></span>
+                    Ocupado
+                </li>
+                <li data-status="gray">
+                    <span class="status-indicator dot-gray"></span>
+                    Offline
+                </li>
+            </ul>
+            <div class="modal-actions">
+                <button class="secondary-btn" onclick="document.getElementById('status-modal').classList.remove('open')">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="delete-channel-modal">
+        <div class="modal-content">
+            <h3>Confirmar Exclusão</h3>
+            <p>Tem certeza que deseja excluir o canal permanentemente <strong><span id="channel-name-to-delete">#canal</span></strong>? Esta ação é irreversível.</p>
+            <div class="modal-actions">
+                <button class="secondary-btn" onclick="document.getElementById('delete-channel-modal').classList.remove('open')">Cancelar</button>
+                <button class="danger-btn" id="confirm-delete-channel">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="delete-dm-modal">
+        <div class="modal-content">
+            <h3>Confirmar Exclusão</h3>
+            <p>Tem certeza que deseja remover a conversa direta com <strong><span id="dm-name-to-delete">Usuário</span></strong>?</p>
+            <div class="modal-actions">
+                <button class="secondary-btn" onclick="document.getElementById('delete-dm-modal').classList.remove('open')">Cancelar</button>
+                <button class="danger-btn" id="confirm-delete-dm">Remover</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../chat.js"></script>
+    <script src="telachat.js"></script>
+    <script src="../firebaseconfig.js"></script>
+</body>
+</html>
+
+ 

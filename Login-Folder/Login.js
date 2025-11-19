@@ -28,7 +28,8 @@ form.addEventListener("submit", async (e) => {
     }
 
     alert("Login realizado com sucesso!");
-    window.location.href = "../Chat-Folder/telachat.html";
+   // window.location.href = "../Chat-Folder/telachat.html";
+   window.location.href = "../chat.html";
 
   } catch (error) {
     console.error(error);
